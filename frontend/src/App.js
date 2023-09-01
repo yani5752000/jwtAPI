@@ -21,6 +21,11 @@ function App() {
         >
           Learn React
         </a>
+        <div>
+          <a href='/' style={{color:'yellow'}}>Home</a>{" "}
+          <a href='/login' style={{color:'yellow'}}>Login</a>{" "}
+          <a href='/register' style={{color:'yellow'}}>Register</a>
+        </div>
         <Router>
           <Routes>
             <Route path='/' element={<Home />} ></Route>
