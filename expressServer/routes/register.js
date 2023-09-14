@@ -10,6 +10,7 @@ router.post("/", (req, res) => {
                     .then(result1 => {
                         res.status(200).json(result1);
                     })
+                    .catch(error => res.status(500).send(error));
             } else {
                 res.send("user email is already in the system");
             }
