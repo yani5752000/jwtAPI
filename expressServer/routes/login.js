@@ -40,4 +40,9 @@ router.get("/getAuth",verifyUser, (req, res) => {
     return res.json({Status: "Success", username: req.username});
 })
 
+router.get("/logout", (req, res) => {
+    res.clearCookie("token");
+    return res.json({Status: "Success"});
+})
+
 module.exports = router;
