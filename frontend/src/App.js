@@ -8,8 +8,8 @@ import Register from './pages/register';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+      <div className="App-header">
+        {/* <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
@@ -20,7 +20,7 @@ function App() {
           rel="noopener noreferrer"
         >
           Learn React
-        </a>
+        </a> */}
         <div>
           <a href='/' style={{color:'yellow'}}>Home</a>{" "}
           <a href='/login' style={{color:'yellow'}}>Login</a>{" "}
@@ -33,7 +33,7 @@ function App() {
             <Route path='/register' element={<Register />} ></Route>
           </Routes>
         </Router>
-      </header>
+      </div>
     </div>
   );
 }

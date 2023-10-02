@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Posts from "../components/posts";
 
 export default function Home() {
     const [auth, setAuth] = useState(false);
     const [username, setUsername] = useState("");
     const [message, setMessage] = useState("");
+    const [posts, setPosts] = useState([]);
+    const [content, setContent] = useState("");
 
     const navigate = useNavigate();
 
@@ -34,7 +37,16 @@ export default function Home() {
                 }
             })
             .catch(err => console.log(err));
-    }
+    };
+
+    const getPosts = () => {
+        axios.get(`http://localhost:8080/posts/${username}`)
+            .then(res => {
+                setPosts(res.data);
+            })
+            .catch(error => console.log(error));
+        
+    };
 
     return (
         <>
@@ -42,6 +54,12 @@ export default function Home() {
             auth ?
             <div>
                 <h3>You are authorized {username}</h3>
+                <h3>Add a post</h3>
+                <form>
+                    <label>Post content</label>
+                    <input type="text" name="content" onChange={e => setContent(e.target.value)} />
+                </form>
+                <Posts posts={posts} />
                 <button onClick={handleLogout}>Log out</button>
             </div>  
             :

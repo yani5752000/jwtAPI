@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Register() {
@@ -8,10 +9,15 @@ export default function Register() {
         password: ""
     })
 
+    const navigate = useNavigate();
+
     const handleRegisterSubmit = (event) => {
         event.preventDefault();
         axios.post("http://localhost:8080/register", values)
-            .then(result => console.log(result))
+            .then(result => {
+                console.log(result);
+                navigate("/login");
+            })
             .catch(error => console.log(error));
     }
 

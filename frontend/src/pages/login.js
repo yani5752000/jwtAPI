@@ -11,7 +11,7 @@ export default function Login() {
     const navigate = useNavigate();
 
     axios.defaults.withCredentials = true;
-    const handleRegisterSubmit = (event) => {
+    const handleLoginSubmit = (event) => {
         event.preventDefault();
         axios.post("http://localhost:8080/login", values)
             .then(result => {
@@ -25,7 +25,7 @@ export default function Login() {
     }
     return (
         <>
-            <form onSubmit={handleRegisterSubmit} >
+            <form onSubmit={handleLoginSubmit} >
                 <label>Email</label>
                 <input type="email" onChange={e => setValues({...values, email: e.target.value})}></input>
                 <label>Password</label>

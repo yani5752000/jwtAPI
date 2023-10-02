@@ -13,8 +13,10 @@ app.use(cors({
 
 const registerRouter = require("./routes/register");
 const loginRouter = require("./routes/login");
+const postsRouter = require("./routes/posts");
 
 app.use("/register", registerRouter);
 app.use("/login", loginRouter);
+app.use("/posts", postsRouter);
 
 app.listen(8080, console.log("Server listening"));
