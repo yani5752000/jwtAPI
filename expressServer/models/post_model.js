@@ -8,6 +8,7 @@ const pool = new Pool({
 })
 
 const addPost = ({userId, content}) => {
+    console.log("postmodel: " + userId + " " + content);
     const queryString = "INSERT INTO posts(user_id, content) VALUES($1, $2) RETURNING *";
     return new Promise((resolve, reject) => {
         pool.query(queryString, [userId, content], (error, result) => {
@@ -20,10 +21,10 @@ const addPost = ({userId, content}) => {
     })
 }
 
-const getUserPosts = (username) => {
-    const queryString = "SELECT * FROM posts WHERE username = $1";
+const getUserPosts = (userId) => {
+    const queryString = "SELECT * FROM posts WHERE user_id = $1";
     return new Promise((resolve, reject) => {
-        pool.query(queryString, [username], (error, result) => {
+        pool.query(queryString, [userId], (error, result) => {
             if (error) {
                 reject(error);
             } else {

@@ -6,6 +6,7 @@ import Posts from "../components/posts";
 export default function Home() {
     const [auth, setAuth] = useState(false);
     const [username, setUsername] = useState("");
+    const [userId, setUserId] = useState("");
     const [message, setMessage] = useState("");
     const [posts, setPosts] = useState([]);
     const [content, setContent] = useState("");
@@ -20,6 +21,7 @@ export default function Home() {
         if(res.data.Status === "Success") {
             setAuth(true);
             setUsername(res.data.username);
+            setUserId(res.data.userId);
         } else {
             setAuth(false);
             setMessage(res.data.Message);
@@ -40,13 +42,23 @@ export default function Home() {
     };
 
     const getPosts = () => {
-        axios.get(`http://localhost:8080/posts/${username}`)
+        axios.get(`http://localhost:8080/posts/${userId}`)
             .then(res => {
+                console.log("home.js res.data: ", res.data);
                 setPosts(res.data);
             })
             .catch(error => console.log(error));
         
     };
+
+    const handlePostSubmit = (e) => {
+        e.preventDefault();
+        axios.post("http://localhost:8080/posts/", {userId, content})
+            .then(res => {
+                getPosts();
+            })
+            .catch(error => console.log(error))
+    }
 
     return (
         <>
@@ -58,6 +70,7 @@ export default function Home() {
                 <form>
                     <label>Post content</label>
                     <input type="text" name="content" onChange={e => setContent(e.target.value)} />
+                    <button type="submit" onClick={handlePostSubmit}>Post</button>
                 </form>
                 <Posts posts={posts} />
                 <button onClick={handleLogout}>Log out</button>

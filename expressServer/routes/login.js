@@ -10,7 +10,8 @@ router.post("/", (req, res) => {
                 return res.json({Message: "No record"});
             } else if (result[0].password == req.body.password) {
                 const username = result[0].username;
-                const token = jwt.sign({username}, "our-jsonwebtoken-secret-key", {expiresIn: "1d"});
+                const userId = result[0].id;
+                const token = jwt.sign({username, userId}, "our-jsonwebtoken-secret-key", {expiresIn: "1d"});
                 res.cookie("token", token);
                 return res.json({status: "Success"});
             } else {
@@ -30,6 +31,7 @@ const verifyUser = (req, res, next) => {
                 return res.json({Message: "Authentication error"})
             } else {
                 req.username = decoded.username;
+                req.userId = decoded.userId;
                 next();
             }
         })
@@ -37,7 +39,7 @@ const verifyUser = (req, res, next) => {
 }
 
 router.get("/getAuth",verifyUser, (req, res) => {
-    return res.json({Status: "Success", username: req.username});
+    return res.json({Status: "Success", username: req.username, userId: req.userId});
 })
 
 router.get("/logout", (req, res) => {

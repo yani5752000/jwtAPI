@@ -7,7 +7,7 @@ export default function Posts({posts}) {
                 posts.map(post => {
                     return (
                         <li key={post.id}>
-                            <Post id={post.id} userId={post.userId} content={post.content} />
+                            <Post id={post.id} userId={post.user_id} content={post.content} />
                         </li>
                     )
                 })
