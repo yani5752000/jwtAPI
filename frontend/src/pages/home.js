@@ -9,6 +9,7 @@ export default function Home() {
     const [userId, setUserId] = useState("");
     const [message, setMessage] = useState("");
     const [posts, setPosts] = useState([]);
+    const [allPosts, setAllPosts] = useState([]);
     const [content, setContent] = useState("");
 
     const navigate = useNavigate();
@@ -16,18 +17,22 @@ export default function Home() {
     axios.defaults.withCredentials = true;
 
     useEffect(() => {
-    axios.get("http://localhost:8080/login/getAuth")
-    .then(res => {
-        if(res.data.Status === "Success") {
-            setAuth(true);
-            setUsername(res.data.username);
-            setUserId(res.data.userId);
-        } else {
-            setAuth(false);
-            setMessage(res.data.Message);
-        }
-    })
+        axios.get("http://localhost:8080/login/getAuth")
+            .then(res => {
+                if(res.data.Status === "Success") {
+                    setAuth(true);
+                    setUsername(res.data.username);
+                    setUserId(res.data.userId);
+                } else {
+                    setAuth(false);
+                    setMessage(res.data.Message);
+                }
+            })
     }, [])
+
+    useEffect(() => {
+        getUserPosts();
+    }, [userId])
 
     const handleLogout = () => {
         axios.get("http://localhost:8080/login/logout")
@@ -41,7 +46,7 @@ export default function Home() {
             .catch(err => console.log(err));
     };
 
-    const getPosts = () => {
+    const getUserPosts = () => {
         axios.get(`http://localhost:8080/posts/${userId}`)
             .then(res => {
                 console.log("home.js res.data: ", res.data);
@@ -51,21 +56,35 @@ export default function Home() {
         
     };
 
+    const getAllPosts = () => {
+        axios.get("http://localhost:8080/posts/")
+            .then(res => {
+                console.log("home.js res.data all posts: ", res.data);
+                setAllPosts(res.data);
+            })
+            .catch(error => console.log(error));
+        
+    };
+
     const handlePostSubmit = (e) => {
         e.preventDefault();
         axios.post("http://localhost:8080/posts/", {userId, content})
             .then(res => {
-                getPosts();
+                getUserPosts();
             })
             .catch(error => console.log(error))
     }
 
     return (
         <>
+            {/* <h3>All Posts</h3>
+            <Posts posts={allPosts} /> */}
         {
             auth ?
             <div>
                 <h3>You are authorized {username}</h3>
+                <h3>Your user ID is {userId}</h3>
+
                 <h3>Add a post</h3>
                 <form>
                     <label>Post content</label>

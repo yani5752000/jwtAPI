@@ -34,4 +34,17 @@ const getUserPosts = (userId) => {
     })
 }
 
-module.exports = { addPost, getUserPosts };
+const getAllPosts = () => {
+    const queryString = "SELECT * FROM posts";
+    return new Promise((resolve, reject) => {
+        pool.query(queryString, (error, result) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(result.rows);
+            }
+        })
+    })
+}
+
+module.exports = { addPost, getUserPosts, getAllPosts };
